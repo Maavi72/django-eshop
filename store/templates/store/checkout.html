@@ -1,0 +1,74 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block title %}Checkout - E-Shop{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background: url("{% static 'store/images/cart_bg.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+    }
+
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: -1;
+    }
+
+    .checkout-container {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 35px;
+        border-radius: 15px;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+        margin-top: 60px;
+        animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+        color: #2c3e50;
+    }
+
+    .btn-primary {
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    label {
+        font-weight: 500;
+        color: #34495e;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-7 checkout-container">
+            <h2 class="mb-4">Checkout</h2>
+
+            <form method="post" action="/checkout/">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="address" class="form-label">Shipping Address</label>
+                    <textarea name="address" class="form-control" id="address" rows="3" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="payment" class="form-label">Payment Method</label>
+                    <select name="payment" class="form-select" id="payment" required>
+                        <option value="cod">Cash on Delivery</option>
+                        <option value="card">Credit/Debit Card</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Place Order</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
